@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <%- include('Partials/navbar') %>
+</head>
+<body>
+
+<a href="./">Back</a><br>
+  
+<div class="container">
+<body>
+
+    <label for="first_name">First Name:</label>
+    <input type="text" id="first_name" name="first_name"><br><br>
+  
+    <label for="last_name">Last Name:</label>
+    <input type="text" id="last_name" name="last_name"><br><br>
+  
+    <label for="gpa_st">GPA:</label>
+    <input type="text" id="gpa_st" name="gpa_st"><br><br>
+  
+    <label for="enroll">Enrolled:</label>
+    <input type="text" id="enroll" name="enroll"><br><br>
+    
+    <label for="ID">ID:</label>
+    <input type="text" id="ID" name="ID"><br><br>
+
+  <button onclick="updateStudent()">Update Student</button>
+  <br>
+  <br>
+  <div id="mydiv" name="mydiv"></div>
+  <script>
+
+    function updateStudent() 
+    {
+      var firstname_val = $("#first_name").val();
+      var lastname_val = $("#last_name").val();
+      var gpa_val = $("#gpa").val();
+      var enrolled_val = $("#enroll").val();
+      var studentID_val = $("#ID").val();
+      var temp = "http://localhost:5678/students/"+studentID_val
+      $.ajax({
+        url: temp,
+        type: "put",
+        data: { 
+          
+          first_name: firstname_val,//the first part must be the same as in the JS file
+          last_name: lastname_val,
+          gpa: gpa_val,
+          enrolled: enrolled_val,
+        },
+        success: function(response) 
+        {
+          $("#mydiv").text("Info Updated");
+        },
+        error: function(xhr) {
+          $("#mydiv").text('error: ' + xhr);
+        }
+      });
+    }  
+  </script>
+</body>
+</html>

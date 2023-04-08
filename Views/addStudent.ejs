@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Add Student</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <%- include('Partials/navbar') %>
+</head>
+<body>
+
+<a href="./">Back</a><br><!--back button-->
+  
+<div class="container">
+   
+  <label for="first_name">First Name:</label>
+  <input type="text" id="first_name" name="first_name"><br><br>
+
+  <label for="last_name">Last Name:</label>
+  <input type="text" id="last_name" name="last_name"><br><br>
+
+  <label for="gpa_st">GPA:</label>
+  <input type="text" id="gpa_st" name="gpa_st"><br><br>
+
+  <label for="enroll">Enrolled:</label>
+  <input type="text" id="enroll" name="enroll"><br><br>
+
+  <label for="ID">ID:</label>
+  <input type="text" id="ID" name="ID"><br><br>
+
+  <button onclick="submitInfo()">Submit</button>
+
+  <div id="mydiv" name="mydiv"></div>
+  </div>
+  <script>
+
+    function submitInfo() {
+      var id_val = $("#ID").val();
+      var firstname_val = $("#first_name").val();
+      var lastname_val = $("#last_name").val();
+      var gpa_val = $("#gpa_st").val();
+      var enrolled_val = $("#enroll").val();
+      
+      $.ajax({
+        url: "http://localhost:5678/students",// where the output goes
+        type: "post",
+        data: { 
+          id: id_val,
+          first_name: firstname_val,//the first part must be the same as in the JS file
+          last_name: lastname_val,
+          gpa: gpa_val,
+          enrolled: enrolled_val,
+        },
+        success: function(response) {
+          $("#mydiv").text(response);
+        },
+        error: function(xhr) {
+          $("#mydiv").text('error: ' + xhr);
+        }
+      });
+    }
+    
+  </script>
+
+</body>
+</html>

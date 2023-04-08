@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <%- include('Partials/navbar') %>
+  <style>
+    table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  th {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  </style>
+</head>
+<body>
+
+  <a href="./">Back</a><br>
+  
+<div class="container">
+<body>
+
+  <label for="record_id">ID:</label>
+  <input type="text" id="record_id" name="record_id"><br><br>
+
+  <button onclick="getStudentSubmit()">Submit</button>
+  <br>
+  <br>
+  <div id="mydiv" name="mydiv"></div>
+  <div id="table-container" name="mydiv"></div>
+  <script>
+
+    function getStudentSubmit() 
+    {
+        var recordId_val = $("#record_id").val()// gets the value from the input box IE (student ID)
+        var temp = "http://localhost:5678/students/"+recordId_val//combines user input with the url
+      $.ajax({
+        url:  temp,
+        type: "get",
+
+        success: function(response) 
+        {
+          let obj=new Map();
+          obj.first_name=response.FirstName;
+          obj.last_name=response.LastName;
+          obj.gpa=response.GPA;
+          obj.enrolled=response.Enrolled;
+          let table = $("<table>");
+          let headerRow = $("<tr>");
+          headerRow.append($("<th>").text("First Name"));
+          headerRow.append($("<th>").text("Last Name"));
+          headerRow.append($("<th>").text("GPA"));
+          headerRow.append($("<th>").text("Enrolled"));
+          table.append(headerRow);
+
+          // Create a data row for the obj values
+          let dataRow = $("<tr>");
+          dataRow.append($("<td>").text(obj.first_name));
+          dataRow.append($("<td>").text(obj.last_name));
+          dataRow.append($("<td>").text(obj.gpa));
+          dataRow.append($("<td>").text(obj.enrolled));
+          table.append(dataRow);
+
+          // Append the table to the page
+          $("#table-container").append(table);
+        },
+        error: function(xhr) {
+          $("#mydiv").text('error: ' + xhr);
+        }
+      });
+    }  
+  </script>
+</body>
+</html>

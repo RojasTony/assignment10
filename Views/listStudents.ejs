@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Get All Students</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <%- include('Partials/navbar') %>
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      th,
+      td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+
+      th {
+        background-color: #522097;
+        color: white;
+      }
+    </style>
+</head>
+
+<body>
+  <div class="container">
+    <a href="./">Back</a><br />
+
+    <!-- <button onclick="sendGetAllVote()">Get All Student</button> -->
+    <br />
+    <br />
+
+    <table id="studentTable">
+      <thead>
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>ID</th>
+          <th>GPA</th>
+          <th>Enrolled</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script>
+    getAllStudents();
+    function getAllStudents() {
+      let params = window.location.search;
+      console.log(params)
+      $.ajax({
+        url: ("http://localhost:5678/students" + params),
+        type: "get",
+        success: function (response) {
+          var obj = JSON.stringify(response);
+          var temp = response;
+          console.log(temp.length);
+
+          const table = document.getElementById("studentTable");
+
+          // Loop through the JSON data and add rows to the table
+          for (let i = 0; i < temp.length; i++) {
+            //console.log(temp[i]);
+            const row = table.insertRow();
+            // Add cells to the row
+            const firstNameCell = row.insertCell();
+            firstNameCell.textContent = temp[i].FirstName;
+
+            const lastNameCell = row.insertCell();
+            lastNameCell.textContent = temp[i].LastName;
+
+            const idCell = row.insertCell();
+            idCell.textContent = temp[i]._id;
+
+            const gpaCell = row.insertCell();
+            gpaCell.textContent = temp[i].GPA;
+
+            const enrolledCell = row.insertCell();
+            enrolledCell.textContent = temp[i].Enrolled;
+          }
+
+          //   console.log(temp[0].record_id)
+          //console.log(response.students);
+          $("#mydiv").text(obj);
+          //console.log(response.students);
+        },
+        error: function (xhr) {
+          $("#mydiv").text("error: " + xhr);
+        },
+      });
+
+      //console.log(temp[0].record_id);
+    }
+  </script>
+</body>
+
+</html>

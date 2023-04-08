@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <%- include('Partials/navbar') %>
+</head>
+<body>
+
+<a href="./">Back</a><br>
+  
+<div class="container">
+<body>
+
+  <label for="record_id">ID:</label>
+  <input type="text" id="record_id" name="record_id"><br><br>
+
+  <button onclick="deleteStudents()">Delete Info</button>
+  <br>
+  <br>
+  <div id="mydiv" name="mydiv"></div>
+  <script>
+    function deleteStudents() 
+    {
+        var recordId_val = $("#record_id").val()
+        var temp = "http://localhost:5678/students/"+recordId_val
+      $.ajax(
+        {
+        url: temp,
+        type: "delete",
+        success: function(response) 
+        {
+          $("#mydiv").text("Info Deleted");
+        },
+        error: function(xhr) {
+          $("#mydiv").text('error: ' + xhr);
+        }
+      });
+    } 
+  </script>
+</body>
+</html>
